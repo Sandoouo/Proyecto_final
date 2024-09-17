@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <locale.h>
 
 using namespace std;
 
@@ -29,8 +30,8 @@ struct RegOferta {
     double Salario;
 };
 
-// Función para obtener la fecha actual en formato dd/mm/aaaa
-// Nombre de la función: ObtenerFechaActual
+
+// Nombre de la funcion: ObtenerFechaActual
 // Objetivo: Obtener la fecha actual y almacenarla en el buffer proporcionado
 // Entradas: buffer (char*), size (size_t) - buffer para almacenar la fecha y tamaño del buffer
 // Salidas: Ninguna
@@ -40,7 +41,7 @@ void ObtenerFechaActual(char* buffer, size_t size) {
     snprintf(buffer, size, "%02d/%02d/%04d", now->tm_mday, now->tm_mon + 1, now->tm_year + 1900);
 }
 
-// Nombre de la función: InsertarOferta
+// Nombre de la funcion: InsertarOferta
 // Objetivo: Permitir al usuario ingresar una oferta y guardarla en el archivo
 // Entradas: Ninguna
 // Salidas: Ninguna
@@ -73,7 +74,7 @@ void InsertarOferta() {
 }
 
 
-// Nombre de la función: ListarOfertas
+// Nombre de la funcion: ListarOfertas
 // Objetivo: Mostrar todas las ofertas almacenadas en el archivo
 // Entradas: Ninguna
 // Salidas: Ninguna
@@ -95,7 +96,7 @@ void ListarOfertas() {
 }
 
 
-// Nombre de la función: BuscarOferta
+// Nombre de la funcion: BuscarOferta
 // Objetivo: Buscar una oferta por su código y mostrarla si se encuentra
 // Entradas: Ninguna
 // Salidas: Ninguna
@@ -127,7 +128,7 @@ void BuscarOferta() {
     system("pause");
 }
 
-// Nombre de la función: ModificarOferta
+// Nombre de la funcion: ModificarOferta
 // Objetivo: Modificar la descripción de una oferta existente por su código
 // Entradas: Ninguna
 // Salidas: Ninguna
@@ -173,7 +174,7 @@ void ModificarOferta() {
 }
 
 
-// Nombre de la función: BorrarOferta
+// Nombre de la funcion: BorrarOferta
 // Objetivo: Borrar una oferta por su código del archivo de ofertas
 // Entradas: Ninguna
 // Salidas: Ninguna
@@ -204,7 +205,7 @@ void BorrarOferta() {
 }
 
 
-// Nombre de la función: InsertarHojaDeVida
+// Nombre de la funcion: InsertarHojaDeVida
 // Objetivo: Permitir al usuario ingresar una hoja de vida y guardarla en el archivo
 // Entradas: Ninguna
 // Salidas: Ninguna
@@ -233,7 +234,7 @@ void InsertarHojaDeVida() {
 }
 
 
-// Nombre de la función: BuscarHojaDeVida
+// Nombre de la funcion: BuscarHojaDeVida
 // Objetivo: Buscar una hoja de vida por su email y mostrarla si se encuentra
 // Entradas: Ninguna
 // Salidas: Ninguna
@@ -269,7 +270,7 @@ void BuscarHojaDeVida() {
 }
 
 
-// Nombre de la función: ReportePostulacionesSolicitante
+// Nombre de la funcion: ReportePostulacionesSolicitante
 // Objetivo: Mostrar un reporte de todas las postulaciones realizadas por un solicitante, filtradas por su email
 // Entradas: Ninguna
 // Salidas: Ninguna
@@ -310,7 +311,7 @@ void ReportePostulacionesSolicitante() {
 }
 
 
-// Nombre de la función: ReportePostulantes
+// Nombre de la funcin: ReportePostulantes
 // Objetivo: Mostrar un reporte de todos los postulantes a todas las ofertas disponibles
 // Entradas: Ninguna
 // Salidas: Ninguna
@@ -341,7 +342,7 @@ void ReportePostulantes() {
 }
 
 
-// Nombre de la función: DescartaPostulante
+// Nombre de la funcion: DescartaPostulante
 // Objetivo: Eliminar todas las postulaciones correspondientes a un código de oferta específico
 // Entradas: Ninguna
 // Salidas: Ninguna
@@ -372,7 +373,7 @@ void DescartaPostulante() {
 }
 
 
-// Nombre de la función: Postularse
+// Nombre de la funcion: Postularse
 // Objetivo: Permitir a un usuario postularse a una oferta específica y guardar la postulación en el archivo
 // Entradas: Ninguna
 // Salidas: Ninguna
@@ -403,12 +404,8 @@ void Postularse() {
     system("pause");
 }
 
-
-// Nombre de la función: main
-// Objetivo: Mostrar el menú principal y ejecutar la función seleccionada por el usuario
-// Entradas: Ninguna
-// Salidas: Ninguna
 int main() {
+    setlocale(LC_CTYPE,"spanish");
     int opcion;
     do {
         system("cls");
@@ -425,7 +422,7 @@ int main() {
         cout << "10. Reporte de postulantes" << endl;
         cout << "11. Descartar postulante" << endl;
         cout << "0. Salir" << endl;
-        cout << "Digite su opción: ";
+        cout << "Digite su opcion: ";
         cin >> opcion;
         switch (opcion) {
             case 1: InsertarOferta(); break;
@@ -440,7 +437,7 @@ int main() {
             case 10: ReportePostulantes(); break;
             case 11: DescartaPostulante(); break;
             case 0: cout << "Saliendo..." << endl; break;
-            default: cout << "Opción no válida!" << endl; break;
+            default: cout << "Opcion no valida!" << endl; break;
         }
     } while (opcion != 0);
     return 0;
