@@ -8,62 +8,61 @@
 using namespace std;
 
 struct RegSolicitante {
-    char Nombre[200];
-    char Email[100];
-    char Profesion[100];
-    char Descripcion[500];
+    char nombre[200];
+    char email[100];
+    char profesion[100];
+    char descripcion[500];
 };
 
 struct RegPostulacion {
-    char Email[100];
-    char CodigoOferta[20];
-    double SalarioEsperado;
-    char FechaPostulacion[11];
+    char email[100];
+    char codigoOferta[20];
+    double salarioEsperado;
+    char fechaPostulacion[11];
 };
 
 struct RegOferta {
-    char Codigo[20];
-    char Empresa[200];
-    char Cargo[100];
-    char Profesiones[200];
-    char Descripcion[500];
-    double Salario;
+    char codigo[20];
+    char empresa[200];
+    char cargo[100];
+    char profesiones[200];
+    char descripcion[500];
+    double salario;
 };
 
-
-// Nombre de la funcion: ObtenerFechaActual
-// Objetivo: Obtener la fecha actual y almacenarla en el buffer proporcionado
-// Entradas: buffer (char*), size (size_t) - buffer para almacenar la fecha y tamaño del buffer
-// Salidas: Ninguna
-void ObtenerFechaActual(char* buffer, size_t size) {
+// NOMBRE DE LA FUNCION: ObtenerFechaActual
+// OBJETIVO: Obtener la fecha actual y almacenarla en el buffer proporcionado
+// ENTRADAS: buffer (char*), size (size_t) - buffer para almacenar la fecha y tamaño del buffer
+// SALIDAS: Ninguna
+void obtenerFechaActual(char* buffer, size_t size) {
     time_t t = time(0);
     struct tm* now = localtime(&t);
     snprintf(buffer, size, "%02d/%02d/%04d", now->tm_mday, now->tm_mon + 1, now->tm_year + 1900);
 }
 
-// Nombre de la funcion: InsertarOferta
-// Objetivo: Permitir al usuario ingresar una oferta y guardarla en el archivo
-// Entradas: Ninguna
-// Salidas: Ninguna
-void InsertarOferta() {
+// NOMBRE DE LA FUNCION: InsertarOferta
+// OBJETIVO: Permitir al usuario ingresar una oferta y guardarla en el archivo
+// ENTRADAS: Ninguna
+// SALIDAS: Ninguna
+void insertarOferta() {
     system("cls");
     RegOferta regO;
     ofstream archi("ofertas.dat", ios::binary | ios::app);
     if (archi) {
         cout << "====== Insertar oferta ======" << endl << endl;
         cout << "Digite el codigo: ";
-        cin >> regO.Codigo;
+        cin >> regO.codigo;
         cout << "Digite la empresa: ";
         cin.ignore();
-        cin.getline(regO.Empresa, sizeof(regO.Empresa));
+        cin.getline(regO.empresa, sizeof(regO.empresa));
         cout << "Digite el cargo: ";
-        cin.getline(regO.Cargo, sizeof(regO.Cargo));
+        cin.getline(regO.cargo, sizeof(regO.cargo));
         cout << "Digite las profesiones (separadas por coma): ";
-        cin.getline(regO.Profesiones, sizeof(regO.Profesiones));
+        cin.getline(regO.profesiones, sizeof(regO.profesiones));
         cout << "Digite la descripcion de la oferta: ";
-        cin.getline(regO.Descripcion, sizeof(regO.Descripcion));
+        cin.getline(regO.descripcion, sizeof(regO.descripcion));
         cout << "Digite el salario ofrecido: ";
-        cin >> regO.Salario;
+        cin >> regO.salario;
         archi.write((char*)&regO, sizeof(regO));
         archi.close();
         cout << "Registro grabado correctamente!" << endl;
@@ -73,12 +72,11 @@ void InsertarOferta() {
     system("pause");
 }
 
-
-// Nombre de la funcion: ListarOfertas
-// Objetivo: Mostrar todas las ofertas almacenadas en el archivo
-// Entradas: Ninguna
-// Salidas: Ninguna
-void ListarOfertas() {
+// NOMBRE DE LA FUNCION: ListarOfertas
+// OBJETIVO: Mostrar todas las ofertas almacenadas en el archivo
+// ENTRADAS: Ninguna
+// SALIDAS: Ninguna
+void listarOfertas() {
     system("cls");
     RegOferta regO;
     ifstream archi("ofertas.dat", ios::binary);
@@ -86,7 +84,7 @@ void ListarOfertas() {
         cout << "====== Listado de ofertas ======" << endl << endl;
         cout << "Empresa\tCargo\tProfesiones\tSalario\tDescripcion" << endl;
         while (archi.read((char*)&regO, sizeof(regO))) {
-            cout << regO.Empresa << "\t" << regO.Cargo << "\t" << regO.Profesiones << "\t" << regO.Salario << "\t" << regO.Descripcion << endl;
+            cout << regO.empresa << "\t" << regO.cargo << "\t" << regO.profesiones << "\t" << regO.salario << "\t" << regO.descripcion << endl;
         }
         archi.close();
     } else {
@@ -95,12 +93,11 @@ void ListarOfertas() {
     system("pause");
 }
 
-
-// Nombre de la funcion: BuscarOferta
-// Objetivo: Buscar una oferta por su código y mostrarla si se encuentra
-// Entradas: Ninguna
-// Salidas: Ninguna
-void BuscarOferta() {
+// NOMBRE DE LA FUNCION: BuscarOferta
+// OBJETIVO: Buscar una oferta por su código y mostrarla si se encuentra
+// ENTRADAS: Ninguna
+// SALIDAS: Ninguna
+void buscarOferta() {
     system("cls");
     RegOferta regO;
     ifstream archi("ofertas.dat", ios::binary);
@@ -112,9 +109,9 @@ void BuscarOferta() {
         cin >> codigo;
         cout << "Empresa\tCargo\tProfesiones\tSalario" << endl;
         while (archi.read((char*)&regO, sizeof(regO))) {
-            if (strcmp(regO.Codigo, codigo) == 0) {
+            if (strcmp(regO.codigo, codigo) == 0) {
                 encontrado = true;
-                cout << regO.Empresa << "\t" << regO.Cargo << "\t" << regO.Profesiones << "\t" << regO.Salario << endl;
+                cout << regO.empresa << "\t" << regO.cargo << "\t" << regO.profesiones << "\t" << regO.salario << endl;
                 break;
             }
         }
@@ -128,11 +125,11 @@ void BuscarOferta() {
     system("pause");
 }
 
-// Nombre de la funcion: ModificarOferta
-// Objetivo: Modificar la descripción de una oferta existente por su código
-// Entradas: Ninguna
-// Salidas: Ninguna
-void ModificarOferta() {
+// NOMBRE DE LA FUNCION: ModificarOferta
+// OBJETIVO: Modificar la descripción de una oferta existente por su código
+// ENTRADAS: Ninguna
+// SALIDAS: Ninguna
+void modificarOferta() {
     system("cls");
     fstream archi("ofertas.dat", ios::binary | ios::in | ios::out);
     if (archi) {
@@ -144,18 +141,18 @@ void ModificarOferta() {
         cin >> codigo;
         archi.seekg(0, ios::beg);
         while (archi.read((char*)&regO, sizeof(regO))) {
-            if (strcmp(regO.Codigo, codigo) == 0) {
+            if (strcmp(regO.codigo, codigo) == 0) {
                 encontrado = true;
                 cout << "Oferta encontrada: " << endl;
-                cout << "Empresa: " << regO.Empresa << endl;
-                cout << "Cargo: " << regO.Cargo << endl;
-                cout << "Profesiones: " << regO.Profesiones << endl;
-                cout << "Descripcion: " << regO.Descripcion << endl;
-                cout << "Salario: " << regO.Salario << endl;
+                cout << "Empresa: " << regO.empresa << endl;
+                cout << "Cargo: " << regO.cargo << endl;
+                cout << "Profesiones: " << regO.profesiones << endl;
+                cout << "Descripcion: " << regO.descripcion << endl;
+                cout << "Salario: " << regO.salario << endl;
 
                 cout << "Digite la nueva descripcion: ";
                 cin.ignore();
-                cin.getline(regO.Descripcion, sizeof(regO.Descripcion));
+                cin.getline(regO.descripcion, sizeof(regO.descripcion));
 
                 archi.seekp(-static_cast<int>(sizeof(regO)), ios::cur);
                 archi.write((char*)&regO, sizeof(regO));
@@ -173,12 +170,11 @@ void ModificarOferta() {
     system("pause");
 }
 
-
-// Nombre de la funcion: BorrarOferta
-// Objetivo: Borrar una oferta por su código del archivo de ofertas
-// Entradas: Ninguna
-// Salidas: Ninguna
-void BorrarOferta() {
+// NOMBRE DE LA FUNCION: BorrarOferta
+// OBJETIVO: Borrar una oferta por su código del archivo de ofertas
+// ENTRADAS: Ninguna
+// SALIDAS: Ninguna
+void borrarOferta() {
     system("cls");
     char codigo[20];
     RegOferta regO;
@@ -189,7 +185,7 @@ void BorrarOferta() {
         cout << "Digite codigo de oferta a borrar: ";
         cin >> codigo;
         while (archi.read((char*)&regO, sizeof(regO))) {
-            if (strcmp(regO.Codigo, codigo) != 0) {
+            if (strcmp(regO.codigo, codigo) != 0) {
                 archiTemp.write((char*)&regO, sizeof(regO));
             }
         }
@@ -204,12 +200,11 @@ void BorrarOferta() {
     system("pause");
 }
 
-
-// Nombre de la funcion: InsertarHojaDeVida
-// Objetivo: Permitir al usuario ingresar una hoja de vida y guardarla en el archivo
-// Entradas: Ninguna
-// Salidas: Ninguna
-void InsertarHojaDeVida() {
+// NOMBRE DE LA FUNCION: InsertarHojaDeVida
+// OBJETIVO: Permitir al usuario ingresar una hoja de vida y guardarla en el archivo
+// ENTRADAS: Ninguna
+// SALIDAS: Ninguna
+void insertarHojaDeVida() {
     system("cls");
     RegSolicitante regS;
     ofstream archi("hojasdevida.dat", ios::binary | ios::app);
@@ -217,13 +212,13 @@ void InsertarHojaDeVida() {
         cout << "====== Insertar hoja de vida ======" << endl << endl;
         cout << "Digite nombres y apellidos: ";
         cin.ignore();
-        cin.getline(regS.Nombre, sizeof(regS.Nombre));
+        cin.getline(regS.nombre, sizeof(regS.nombre));
         cout << "Digite el email: ";
-        cin.getline(regS.Email, sizeof(regS.Email));
+        cin.getline(regS.email, sizeof(regS.email));
         cout << "Digite la profesion: ";
-        cin.getline(regS.Profesion, sizeof(regS.Profesion));
+        cin.getline(regS.profesion, sizeof(regS.profesion));
         cout << "Digite la descripcion del perfil laboral: ";
-        cin.getline(regS.Descripcion, sizeof(regS.Descripcion));
+        cin.getline(regS.descripcion, sizeof(regS.descripcion));
         archi.write((char*)&regS, sizeof(regS));
         archi.close();
         cout << "Hoja de vida registrada correctamente!" << endl;
@@ -233,12 +228,11 @@ void InsertarHojaDeVida() {
     system("pause");
 }
 
-
-// Nombre de la funcion: BuscarHojaDeVida
-// Objetivo: Buscar una hoja de vida por su email y mostrarla si se encuentra
-// Entradas: Ninguna
-// Salidas: Ninguna
-void BuscarHojaDeVida() {
+// NOMBRE DE LA FUNCION: BuscarHojaDeVida
+// OBJETIVO: Buscar una hoja de vida por su email y mostrarla si se encuentra
+// ENTRADAS: Ninguna
+// SALIDAS: Ninguna
+void buscarHojaDeVida() {
     system("cls");
     RegSolicitante regS;
     ifstream archi("hojasdevida.dat", ios::binary);
@@ -250,12 +244,12 @@ void BuscarHojaDeVida() {
         cin.ignore();
         cin.getline(email, sizeof(email));
         while (archi.read((char*)&regS, sizeof(regS))) {
-            if (strcmp(regS.Email, email) == 0) {
+            if (strcmp(regS.email, email) == 0) {
                 encontrado = true;
-                cout << "Nombre: " << regS.Nombre << endl;
-                cout << "Email: " << regS.Email << endl;
-                cout << "Profesion: " << regS.Profesion << endl;
-                cout << "Descripcion: " << regS.Descripcion << endl;
+                cout << "Nombre: " << regS.nombre << endl;
+                cout << "Email: " << regS.email << endl;
+                cout << "Profesion: " << regS.profesion << endl;
+                cout << "Descripcion: " << regS.descripcion << endl;
                 break;
             }
         }
@@ -269,12 +263,11 @@ void BuscarHojaDeVida() {
     system("pause");
 }
 
-
-// Nombre de la funcion: ReportePostulacionesSolicitante
-// Objetivo: Mostrar un reporte de todas las postulaciones realizadas por un solicitante, filtradas por su email
-// Entradas: Ninguna
-// Salidas: Ninguna
-void ReportePostulacionesSolicitante() {
+// NOMBRE DE LA FUNCION: ReportePostulacionesSolicitante
+// OBJETIVO: Mostrar un reporte de todas las postulaciones realizadas por un solicitante, filtradas por su email
+// ENTRADAS: Ninguna
+// SALIDAS: Ninguna
+void reportePostulacionesSolicitante() {
     system("cls");
     RegPostulacion regP;
     ifstream archi("postulaciones.dat", ios::binary);
@@ -287,13 +280,13 @@ void ReportePostulacionesSolicitante() {
         cin.getline(email, sizeof(email));
         cout << "Empresa\tCargo\tFecha\tSalario Esperado" << endl;
         while (archi.read((char*)&regP, sizeof(regP))) {
-            if (strcmp(regP.Email, email) == 0) {
+            if (strcmp(regP.email, email) == 0) {
                 RegOferta regO;
                 ifstream archiO("ofertas.dat", ios::binary);
                 while (archiO.read((char*)&regO, sizeof(regO))) {
-                    if (strcmp(regO.Codigo, regP.CodigoOferta) == 0) {
+                    if (strcmp(regO.codigo, regP.codigoOferta) == 0) {
                         encontrado = true;
-                        cout << regO.Empresa << "\t" << regO.Cargo << "\t" << regP.FechaPostulacion << "\t" << regP.SalarioEsperado << endl;
+                        cout << regO.empresa << "\t" << regO.cargo << "\t" << regP.fechaPostulacion << "\t" << regP.salarioEsperado << endl;
                         break;
                     }
                 }
@@ -310,12 +303,11 @@ void ReportePostulacionesSolicitante() {
     system("pause");
 }
 
-
-// Nombre de la funcin: ReportePostulantes
-// Objetivo: Mostrar un reporte de todos los postulantes a todas las ofertas disponibles
-// Entradas: Ninguna
-// Salidas: Ninguna
-void ReportePostulantes() {
+// NOMBRE DE LA FUNCION: ReportePostulantes
+// OBJETIVO: Mostrar un reporte de todos los postulantes a todas las ofertas disponibles
+// ENTRADAS: Ninguna
+// SALIDAS: Ninguna
+void reportePostulantes() {
     system("cls");
     RegPostulacion regP;
     ifstream archi("postulaciones.dat", ios::binary);
@@ -325,10 +317,10 @@ void ReportePostulantes() {
             RegOferta regO;
             ifstream archiO("ofertas.dat", ios::binary);
             while (archiO.read((char*)&regO, sizeof(regO))) {
-                if (strcmp(regO.Codigo, regP.CodigoOferta) == 0) {
-                    cout << "Cargo: " << regO.Cargo << endl;
-                    cout << "Email: " << regP.Email << endl;
-                    cout << "Salario Esperado: " << regP.SalarioEsperado << endl;
+                if (strcmp(regO.codigo, regP.codigoOferta) == 0) {
+                    cout << "Cargo: " << regO.cargo << endl;
+                    cout << "Email: " << regP.email << endl;
+                    cout << "Salario Esperado: " << regP.salarioEsperado << endl;
                     cout << "----------------------------" << endl;
                     break;
                 }
@@ -341,12 +333,11 @@ void ReportePostulantes() {
     system("pause");
 }
 
-
-// Nombre de la funcion: DescartaPostulante
-// Objetivo: Eliminar todas las postulaciones correspondientes a un código de oferta específico
-// Entradas: Ninguna
-// Salidas: Ninguna
-void DescartaPostulante() {
+// NOMBRE DE LA FUNCION: DescartaPostulante
+// OBJETIVO: Eliminar todas las postulaciones correspondientes a un código de oferta específico
+// ENTRADAS: Ninguna
+// SALIDAS: Ninguna
+void descartaPostulante() {
     system("cls");
     char codigo[20];
     RegPostulacion regP;
@@ -357,7 +348,7 @@ void DescartaPostulante() {
         cout << "Digite codigo de oferta a descartar postulantes: ";
         cin >> codigo;
         while (archi.read((char*)&regP, sizeof(regP))) {
-            if (strcmp(regP.CodigoOferta, codigo) != 0) {
+            if (strcmp(regP.codigoOferta, codigo) != 0) {
                 archiTemp.write((char*)&regP, sizeof(regP));
             }
         }
@@ -372,12 +363,11 @@ void DescartaPostulante() {
     system("pause");
 }
 
-
-// Nombre de la funcion: Postularse
-// Objetivo: Permitir a un usuario postularse a una oferta específica y guardar la postulación en el archivo
-// Entradas: Ninguna
-// Salidas: Ninguna
-void Postularse() {
+// NOMBRE DE LA FUNCION: Postularse
+// OBJETIVO: Permitir a un usuario postularse a una oferta específica y guardar la postulación en el archivo
+// ENTRADAS: Ninguna
+// SALIDAS: Ninguna
+void postularse() {
     system("cls");
     RegPostulacion regP;
     ofstream archi("postulaciones.dat", ios::binary | ios::app);
@@ -391,10 +381,10 @@ void Postularse() {
         cin.ignore();
         cin.getline(email, sizeof(email));
         cout << "Digite el salario esperado: ";
-        cin >> regP.SalarioEsperado;
-        ObtenerFechaActual(regP.FechaPostulacion, sizeof(regP.FechaPostulacion));
-        strcpy(regP.CodigoOferta, codigo);
-        strcpy(regP.Email, email);
+        cin >> regP.salarioEsperado;
+        obtenerFechaActual(regP.fechaPostulacion, sizeof(regP.fechaPostulacion));
+        strcpy(regP.codigoOferta, codigo);
+        strcpy(regP.email, email);
         archi.write((char*)&regP, sizeof(regP));
         archi.close();
         cout << "Postulacion realizada correctamente!" << endl;
@@ -425,20 +415,24 @@ int main() {
         cout << "Digite su opcion: ";
         cin >> opcion;
         switch (opcion) {
-            case 1: InsertarOferta(); break;
-            case 2: ListarOfertas(); break;
-            case 3: BuscarOferta(); break;
-            case 4: ModificarOferta(); break;
-            case 5: BorrarOferta(); break;
-            case 6: InsertarHojaDeVida(); break;
-            case 7: BuscarHojaDeVida(); break;
-            case 8: Postularse(); break;
-            case 9: ReportePostulacionesSolicitante(); break;
-            case 10: ReportePostulantes(); break;
-            case 11: DescartaPostulante(); break;
+            case 1: insertarOferta(); break;
+            case 2: listarOfertas(); break;
+            case 3: buscarOferta(); break;
+            case 4: modificarOferta(); break;
+            case 5: borrarOferta(); break;
+            case 6: insertarHojaDeVida(); break;
+            case 7: buscarHojaDeVida(); break;
+            case 8: postularse(); break;
+            case 9: reportePostulacionesSolicitante(); break;
+            case 10: reportePostulantes(); break;
+            case 11: descartaPostulante(); break;
             case 0: cout << "Saliendo..." << endl; break;
             default: cout << "Opcion no valida!" << endl; break;
         }
+    } while (opcion != 0);
+    return 0;
+}
+
     } while (opcion != 0);
     return 0;
 }
